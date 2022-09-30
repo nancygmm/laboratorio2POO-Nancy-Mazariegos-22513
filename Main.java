@@ -1,11 +1,15 @@
-//Nancy Gabriela Mazariegos Molina//
-//Carné 22513//
-//Programación Orientada a Objetos//
-//Laboratorio #2//
+/**
+* Simulador de memoria RAM para que el usuario ingrese o cierre programas
+* @author  Nancy Gabriela Mazariegos Molina
+* @version 1.0
+* @since   29/02/2022
+*/
 import java.util.*;
 public class Main{
+    /**
+     * Clase Main
+     */
     private static double tamaño;
-
     public static void main(String[] args) {
         Main con = new Main();
         Main z = new Main();
@@ -18,12 +22,16 @@ public class Main{
         System.out.println("Simulador de memoria RAM");
         int respuesta =-1;
         try (Scanner teclado = new Scanner(System.in)) {
-            //Crear la lista donde se almacenarán los datos de cada memoria//
+            /**
+             * Crear las listas donde se almacenarán los datos de cada memoria
+             */
             ArrayList<Programa> RAM=new ArrayList<Programa>();
             ArrayList<String> RAMNombres=new ArrayList<String>();
             ArrayList<Programa> cola=new ArrayList<Programa>();
             Memoria memoria=new Memoria("", 0, 0);
-            //Crear el menú para seleccionar tipo y tamaño de la memoria RAM//
+            /**
+             * Crear el menú para seleccionar tipo y tamaño de la memoria RAM
+             */
             int seleccion=1;
             String tipo="";
             double sizeSeleccion=1,size=4,x,bloques;
@@ -46,24 +54,31 @@ public class Main{
             }else{
                 System.out.println("Por favor seleccionar una opción válida");
             }
-            //Tamaño de la memoria con su límite de espacio para los programas y la cantidad de bloques que ocupa//
+            /**
+             * /Tamaño de la memoria con su límite de espacio para los programas y la cantidad de bloques que ocupa
+             */
             double tamañoP=tamaño*1024;
             double limite=tamañoP;
             double bloque=tamañoP/64;
-            //Asignar el tipo de memoria en base a lo que el usuario seleccionó//
+            /**
+             * Asignar el tipo de memoria en base a lo que el usuario seleccionó
+             */
             if(seleccion==1){
                 tipo="SDR";
             }else{
                 tipo="DDR";
             }
-            //Llamar a los sets de la clase Memoria para poder asignar los atributos previamente listados en la misma//
+            /**
+             * Llamar a los sets de la clase Memoria para poder asignar los atributos previamente listados en la misma
+             */
             memoria.setTipo(tipo);
             memoria.setTamaño(tamaño);
             x=size/64;
             bloques=Math.ceil(x);
             memoria.setBloques(bloques);
-
-            //Agregar los programas predeterminados a la lista de programas abiertos para tomar en cuenta el espacio que estos ocupan//
+            /**
+             * Agregar los programas predeterminados a la lista de programas abiertos para tomar en cuenta el espacio que estos ocupan
+             */
             Programa programa1=new Programa("Google chrome", 2070, 8, bloque);
             Programa programa2=new Programa("Firefox", 64, 16, bloque);
             Programa programa3=new Programa("Zoom", 320, 60, bloque);
@@ -82,6 +97,10 @@ public class Main{
             RAM.add(programa7);
             RAM.add(programa8);
             RAM.add(programa9);
+            /**
+             * Asignar una variable para el espacio y los bloques de cada programa
+             * y luego sumar para calcular el espacio disponible y ocupado
+             */
             RAMNombres.add("Google Chrome");
             double gc = 2070;
             double bgc = 8;
@@ -109,13 +128,19 @@ public class Main{
             RAMNombres.add("Word");
             double wd = 1024;
             double bwd = 10;
-            //Suma del espacio en MB que ocupan los programas predeterminados en la memoria//
+            /**
+             * Suma del espacio en MB que ocupan los programas predeterminados en la memoria
+             */
             double sumaTamaño = gc+ff+zm+wa+tg+vs+ml+cc+wd;
-            //Suma de los bloques/tiempo que ocupan//
+            /**
+             * Suma de los bloques/tiempo que ocupan
+             */
             double sumaBloques = bgc+bff+bzm+bwa+btg+bvs+bml+bcc+bwd;
             tamañoP-=sumaTamaño;
             bloque-=sumaBloques;
-            //Menú de opciones que el usuario puede ejecutar//
+            /**
+             * Menú de opciones que el usuario puede ejecutar
+             */
             while(respuesta!=15){
                 System.out.println("\n\n Menú de memoria RAM");
                 System.out.println("1. Abrir un nuevo programa");
@@ -129,12 +154,17 @@ public class Main{
                 System.out.println("9. Programas ingresados a la cola");
                 System.out.println("10. Aumentar/disminuir tamaño de memoria");
                 System.out.println("11. Listado de programas");
-                System.out.println("12. Cerrar");
+                System.out.println("12. Realizar ciclo de reloj");
+                System.out.println("13. Cerrar");
                 System.out.println("\n\n Ingresa la opcion que desees");
                 respuesta=teclado.nextInt();
-                //Ejecución del menú de la selección del usuario//
+                /**
+                 * Ejecución del menú de la selección del usuario
+                 */
                 if(respuesta==1){
-                    //Preguntar: nombre, tamaño y bloques del programa//
+                    /**
+                     * Preguntar: nombre, tamaño y bloques del programa
+                     */
                     Programa programa=new Programa("nombre", 0, 0, sumaBloques);
                     String nombre;
                     double espacio,x2;
@@ -146,14 +176,18 @@ public class Main{
                     x2=espacio/64;
                     bloques2=Math.ceil(x2);
                     if(bloques2>bloque && tamañoP>espacio){
-                    //Agregar el programa a la lista de programa//
+                    /**
+                     * Agregar el programa a la lista de programa
+                     */
                     programa.setNombre(nombre);
                     programa.setTamaño(tamaño);
                     programa.setBloques(bloques2);
                     RAM.add(programa);
                     RAMNombres.add(nombre);
                     tamañoP-=espacio;
-                    //Si el tiempo y/o bloques son muy grandes mandar a la cola el programa//
+                    /**
+                     * Si el tiempo y/o bloques son muy grandes mandar a la cola el programa
+                     */
                     }else{
                         System.out.println("No se puede ingresar el programa, se pondra en cola ");
                         programa.setNombre(nombre);
@@ -161,7 +195,9 @@ public class Main{
                         programa.setBloques(bloques2);
                         cola.add(programa);}
                 }else if(respuesta==2){
-                    //Cerrar programa//
+                    /**
+                     * Cerrar programa
+                     */
                     int close=0;
                     for(int i=0;i<RAMNombres.size();i++){
                         System.out.println(i+1+". "+RAMNombres.get(i));}
@@ -170,29 +206,41 @@ public class Main{
                     RAM.remove(close-1);
                     RAMNombres.remove(close-1);
                 }else if(respuesta==3){
-                    //RAM TOTAL//
+                    /**
+                     * RAM TOTAL
+                     */
                     System.out.println("RAM TOTAL -> "+limite);
                 }else if(respuesta==4){
-                    //RAM DISPONIBLE//
+                    /**
+                     * RAM DISPONIBLE
+                     */
                     System.out.println("RAM DISPONIBLE -> "+tamañoP);
                 }else if(respuesta==5){
-                    //RAM EN USO//
+                    /**
+                     * RAM EN USO
+                     */
                     System.out.println("RAM EN USO -> "+(limite-tamañoP));
                 }else if(respuesta==6){
-                    //Programas en uso//
+                    /**
+                     * Programas en uso
+                     */
                     for(int i=0;i<RAM.size();i++){
                         System.out.print(i+1+". ");
                         System.out.println(RAM.get(i));
                     }
                     System.out.println("MEMORIA RESTANTE EN MB -> "+tamañoP);
                 }else if(respuesta==7){
-                    //Mostrar programas que aún están en cola//
+                    /**
+                     * Mostrar programas que aún están en cola
+                     */
                     for(int i=0;i<cola.size();i++){
                         System.out.print(i+1+". ");
                         System.out.println(cola.get(i));
                     }
                 }else if(respuesta==8){
-                    //Espacio que un programa ocupa//
+                    /**
+                     * Espacio que un programa ocupa
+                     */
                     int posicion=0;
                     for(int i=0;i<RAM.size();i++){
                         System.out.print(i+1+". ");
@@ -204,7 +252,9 @@ public class Main{
                         System.out.println(RAM.get(posicion-1).getTamaño());
                     }
                 }else if(respuesta==9){
-                    //Programas que aún puede iniciar//
+                    /**
+                     * Programas que aún puede iniciar
+                     */
                     ArrayList<Programa> temp=new ArrayList<Programa>();
                     ArrayList<Programa> temp2=new ArrayList<Programa>();
                     if(cola.size()>0){
@@ -229,7 +279,9 @@ public class Main{
                     }else{
                         System.out.println("No hay programas en cola");
                     }
-                //Aumentar/disminuir la memoria//
+                /**
+                 * Aumentar/disminuir la memoria
+                 */
                 }else if(respuesta==10){
                     double contador=0;
                     double bloque1=64;
@@ -286,11 +338,17 @@ public class Main{
                     }else{
                         System.out.println("El tipo de memoria no se puede aumentar, lo sentimos :(");
                     }
-                //Mostar listado de programas//
+                /**
+                 * Mostar listado de programas
+                 */
                 }else if(respuesta==11){
                     System.out.println(RAMNombres);
-                //Cerrar memoria RAM//
+                /**
+                 * Cerrar memoria RAM
+                 */
                 }else if(respuesta==12){
+                    System.out.println("Lamentamos informarle que esta opción aún no se encuentra disponible debido a que la ingeniera no supo como hacer esta parte :(, que tenga un bonito día ");
+                }else if(respuesta==13){
                     System.out.println("Feliz dia ");
                 }else{
                     System.out.println("Ingresa un valor correcto ");
